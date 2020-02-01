@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>LiveServer Test</title>
+</head>
+
+<body>
+  <h1>LiveServer Testing...</h1>
+  <h2>修改本文件（/test/index.html）并保存可以触发浏览器的刷新！</h2>
+  <!-- 用来连接WebScoekt -->
+  <script type="text/javascript">
+    function ConnectWebSocket() {
+      if (!("WebSocket" in window)) {
+        alert("你的浏览器不支持WebSocket！")
+        return
+      }
+      // 打开一个 web socket
+      let ws = new WebSocket(`ws://${window.location.host}/watcher?pathname=${window.location.pathname}`)
+      ws.onopen = function () {
+        console.log("Watcher WebSocket 连接成功 => ", ws)
+      }
+      ws.onmessage = function (evt) {
+        console.log("Watcher 发来消息 => ", evt)
+        window.location.reload()
+      }
+      ws.onclose = function () {
+        alert("Watcher WebSocket 连接已关闭")
+      }
+    }
+    ConnectWebSocket()
+  </script>
+</body>
+
+</html>
